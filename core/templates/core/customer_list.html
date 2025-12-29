@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div>
+        <h2 class="text-3xl font-bold text-slate-800">Customer Directory</h2>
+        <p class="text-gray-500 text-sm">Manage your customers and view their history</p>
+    </div>
+    
+    <div class="flex w-full md:w-auto gap-3">
+        <form method="GET" class="flex flex-1 md:w-80 shadow-sm">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search name or phone..." 
+                   class="w-full p-3 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded-r-lg hover:bg-blue-700 transition">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+
+        <a href="{% url 'add_customer' %}" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 shadow-md flex items-center font-bold">
+            <i class="fas fa-user-plus mr-2"></i> Add New
+        </a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for customer in customers %}
+    <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 overflow-hidden group">
+        <div class="p-6 flex flex-col items-center">
+            
+            <div class="relative">
+                {% if customer.photo %}
+                    <img src="{{ customer.photo.url }}" class="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg mb-4 group-hover:scale-105 transition">
+                {% else %}
+                    <div class="w-28 h-28 rounded-full bg-slate-100 flex items-center justify-center mb-4 border-4 border-white shadow-lg group-hover:bg-blue-50 transition">
+                        <i class="fas fa-user text-5xl text-slate-300"></i>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <h4 class="text-xl font-bold text-slate-800 mb-1">{{ customer.name }}</h4>
+            <p class="text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full text-sm mb-3">
+                <i class="fas fa-phone-alt mr-1"></i> {{ customer.phone }}
+            </p>
+            <p class="text-gray-500 text-sm text-center mb-6 truncate w-full px-4">
+                <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>
+                {{ customer.address|default:"No address provided" }}
+            </p>
+            
+            <a href="{% url 'customer_detail' customer.pk %}" 
+               class="w-full text-center py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition shadow-lg font-bold">
+                View Details & History <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full py-16 text-center bg-white rounded-2xl border border-dashed border-gray-300">
+        <div class="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-users-slash text-3xl text-gray-400"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-700">No customers found</h3>
+        <p class="text-gray-500 mb-6">Try a different search or add a new customer.</p>
+        <a href="{% url 'add_customer' %}" class="text-blue-600 font-bold hover:underline">Add First Customer Now</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

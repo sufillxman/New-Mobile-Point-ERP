@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <a href="{% url 'customer_list' %}" class="text-slate-600 hover:text-slate-900 font-medium transition">
+        <i class="fas fa-arrow-left mr-2"></i> Back to Customers
+    </a>
+    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-200 text-sm">
+        <i class="fas fa-edit mr-1"></i> Edit Details
+    </button>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-1 h-fit">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+            
+            {% if customer.photo %}
+                <img src="{{ customer.photo.url }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-6 border-4 border-blue-50 shadow-sm">
+            {% else %}
+                <div class="w-32 h-32 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6 border-4 border-white shadow-sm">
+                    <i class="fas fa-user text-5xl text-slate-300"></i>
+                </div>
+            {% endif %}
+            
+            <h3 class="text-2xl font-black text-slate-800 mb-1">{{ customer.name }}</h3>
+            <p class="text-blue-600 font-bold mb-4 bg-blue-50 inline-block px-3 py-1 rounded-full text-sm">
+                <i class="fas fa-phone-alt mr-2"></i>{{ customer.phone }}
+            </p>
+            <p class="text-gray-500 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                {{ customer.address|default:"Address not provided" }}
+            </p>
+            
+            <div class="mt-8 p-6 bg-orange-50 rounded-xl border border-orange-100">
+                <p class="text-xs text-orange-600 font-bold uppercase tracking-wider mb-1">Total Pending Balance</p>
+                <p class="text-3xl font-black text-orange-600">₹{{ customer_pending }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                <h4 class="font-bold text-slate-800 text-lg">
+                    <i class="fas fa-history mr-2 text-blue-600"></i> Purchase History
+                </h4>
+                <span class="bg-white px-3 py-1 rounded border text-xs font-bold text-gray-500">
+                    {{ invoices.count }} Transactions
+                </span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">Date</th>
+                            <th class="px-6 py-4">Product Details</th>
+                            <th class="px-6 py-4 text-right">Total</th>
+                            <th class="px-6 py-4 text-center">Status / Action</th> <th class="px-6 py-4 text-center">View Bill</th> 
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        {% for invoice in invoices %}
+                        <tr class="hover:bg-blue-50 transition duration-150">
+                            <td class="px-6 py-4 text-sm font-mono text-gray-600">
+                                {{ invoice.sale_date|date:"d M Y" }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-800">{{ invoice.product.brand }}</div>
+                                <div class="text-xs text-gray-500">{{ invoice.product.model_name }}</div>
+                            </td>
+                            <td class="px-6 py-4 text-right font-bold text-slate-700">
+                                ₹{{ invoice.total_amount }}
+                            </td>
+                            
+                            <td class="px-6 py-4 text-center">
+                                {% if invoice.balance_amount > 0 %}
+                                    <div class="flex flex-col items-center gap-2">
+                                        <span class="text-red-600 font-bold text-xs">Due: ₹{{ invoice.balance_amount }}</span>
+                                        
+                                        <a href="{% url 'add_payment' invoice.id %}" 
+                                           class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 shadow font-bold transition w-full text-center">
+                                           <i class="fas fa-wallet mr-1"></i> Pay Now
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold border border-green-200">
+                                        <i class="fas fa-check-circle mr-1"></i> PAID
+                                    </span>
+                                {% endif %}
+                            </td>
+                            
+                            <td class="px-6 py-4 text-center">
+                                <a href="{% url 'invoice_detail' invoice.pk %}" 
+                                   class="text-slate-400 hover:text-blue-600 p-2 transition"
+                                   title="View Bill">
+                                    <i class="fas fa-file-invoice text-xl"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center text-gray-400">
+                                    <i class="fas fa-shopping-basket text-4xl mb-3"></i>
+                                    <p>Is customer ne abhi tak koi kharidi nahi ki.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
