@@ -1,87 +1,90 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-2 md:mt-6">
-    <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 mb-10">
-        <div class="bg-slate-900 p-8 md:p-10 text-white flex justify-between items-center relative overflow-hidden">
+<div class="max-w-4xl mx-auto px-1 sm:px-2 md:mt-6">
+    <div class="bg-white rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 mb-10">
+        
+        <div class="bg-slate-900 p-6 md:p-10 text-white flex justify-between items-center relative overflow-hidden">
             <div class="relative z-10">
-                <h2 class="text-3xl font-black tracking-tighter uppercase">New Sale Bill</h2>
-                <p class="text-slate-400 text-sm font-bold">Generate invoice & update stock</p>
+                <h2 class="text-xl md:text-3xl font-black tracking-tighter uppercase leading-none">New Sale Bill</h2>
+                <p class="text-slate-400 text-[10px] md:text-sm font-bold mt-1">Generate invoice & update stock</p>
             </div>
-            <i class="fas fa-file-invoice-dollar text-6xl text-slate-800 absolute -right-2 -bottom-2 rotate-12"></i>
+            <i class="fas fa-file-invoice-dollar text-4xl md:text-6xl text-slate-800 absolute -right-2 -bottom-2 rotate-12"></i>
         </div>
         
-        <form method="POST" class="p-6 md:p-10 space-y-8">
+        <form method="POST" class="p-4 md:p-10 space-y-6 md:space-y-8">
             {% csrf_token %}
             
-            <div class="space-y-3">
-                <label class="block text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Select Customer</label>
-                <div class="flex gap-3">
+            <div class="space-y-2 md:space-y-3">
+                <label class="block text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Select Customer</label>
+                <div class="flex gap-2 md:gap-3">
                     <div class="flex-1 relative group">
-                        <i class="fas fa-user-circle absolute left-4 top-4 text-slate-400"></i>
+                        <i class="fas fa-user-circle absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                         {{ form.customer }}
                     </div>
                     <a href="{% url 'add_customer' %}?next=billing" 
-                       class="bg-green-600 text-white px-5 py-3 rounded-2xl hover:bg-green-700 flex items-center shadow-lg shadow-green-900/20 transition-all active:scale-95"
+                       class="bg-green-600 text-white px-4 md:px-5 py-3 rounded-xl md:rounded-2xl hover:bg-green-700 flex items-center shadow-lg transition-all active:scale-95"
                        title="Naya Grahak Jodein">
                         <i class="fas fa-plus"></i>
                     </a>
                 </div>
             </div>
 
-            <div class="space-y-3">
-                <label class="block text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Select Mobile (Stock)</label>
+            <div class="space-y-2 md:space-y-3">
+                <label class="block text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Select Mobile (Stock)</label>
                 <div class="relative group">
-                    <i class="fas fa-mobile-alt absolute left-4 top-4 text-slate-400"></i>
+                    <i class="fas fa-mobile-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                     {{ form.product }}
                 </div>
-                <p class="text-[10px] text-blue-500 font-bold ml-1 italic"><i class="fas fa-info-circle mr-1"></i> Sirf wahi phone dikhenge jo abhi dukan mein hain (In Stock).</p>
+                <p class="text-[9px] md:text-[10px] text-blue-500 font-bold ml-1 italic leading-tight">
+                    <i class="fas fa-info-circle mr-1"></i> Sirf wahi phone dikhenge jo In Stock hain.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100">
-                <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Final Deal Price (₹)</label>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 bg-slate-50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100">
+                <div class="space-y-1 md:space-y-2">
+                    <label class="block text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Final Deal Price (₹)</label>
                     <div class="relative">
-                        <span class="absolute left-4 top-4 font-bold text-slate-400">₹</span>
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
                         {{ form.total_amount }}
                     </div>
                 </div>
-                <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-green-600 uppercase tracking-widest ml-1">Amount Paid Now (₹)</label>
+                <div class="space-y-1 md:space-y-2">
+                    <label class="block text-[9px] md:text-[10px] font-black text-green-600 uppercase tracking-widest ml-1">Paid Now (₹)</label>
                     <div class="relative">
-                        <span class="absolute left-4 top-4 font-bold text-green-400">₹</span>
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-green-400">₹</span>
                         {{ form.amount_paid }}
                     </div>
                 </div>
-                <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Payment Mode</label>
+                <div class="space-y-1 md:space-y-2">
+                    <label class="block text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Payment Mode</label>
                     <div class="relative">
-                        <i class="fas fa-wallet absolute left-4 top-4 text-slate-400"></i>
+                        <i class="fas fa-wallet absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                         {{ form.payment_mode }}
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Transaction ID / Bajaj File No</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                <div class="space-y-1 md:space-y-2">
+                    <label class="block text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Trans ID / Bajaj File No</label>
                     <div class="relative">
-                        <i class="fas fa-fingerprint absolute left-4 top-4 text-slate-400"></i>
+                        <i class="fas fa-fingerprint absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                         {{ form.transaction_id }}
                     </div>
                 </div>
-                <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-red-500 uppercase tracking-widest ml-1">Payment Due Date (Udhaar)</label>
+                <div class="space-y-1 md:space-y-2">
+                    <label class="block text-[9px] md:text-[10px] font-black text-red-500 uppercase tracking-widest ml-1">Due Date (Udhaar)</label>
                     <div class="relative">
-                        <i class="fas fa-calendar-alt absolute left-4 top-4 text-red-400"></i>
+                        <i class="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-red-400"></i>
                         {{ form.due_date }}
                     </div>
                 </div>
             </div>
 
-            <div class="pt-6 border-t border-slate-100">
-                <button type="submit" class="w-full py-5 bg-blue-600 text-white font-black uppercase tracking-widest text-sm rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-900/20 flex justify-center items-center active:scale-95">
-                    <i class="fas fa-print mr-2 text-lg"></i> Save Bill & Print Receipt
+            <div class="pt-4 md:pt-6 border-t border-slate-100">
+                <button type="submit" class="w-full py-4 md:py-5 bg-blue-600 text-white font-black uppercase tracking-widest text-xs md:text-sm rounded-xl md:rounded-2xl hover:bg-blue-700 transition-all shadow-xl flex justify-center items-center active:scale-95">
+                    <i class="fas fa-print mr-2 text-base md:text-lg"></i> Save & Print
                 </button>
             </div>
         </form>
@@ -89,18 +92,28 @@
 </div>
 
 <style>
-    /* Django Form Control styling */
+    /* Responsive Django Form Styling */
     select, input {
         width: 100% !important;
-        padding: 1rem 1rem 1rem 3.5rem !important;
+        padding: 0.75rem 1rem 0.75rem 3rem !important; /* Adjusted for mobile */
         background-color: white !important;
         border: 2px solid #f1f5f9 !important;
-        border-radius: 1.25rem !important;
+        border-radius: 0.75rem !important; /* Smaller radius for mobile */
         font-weight: 800 !important;
+        font-size: 0.875rem !important; /* text-sm */
         color: #0f172a !important;
         transition: all 0.2s !important;
         outline: none !important;
     }
+    
+    @media (min-width: 768px) {
+        select, input {
+            padding: 1rem 1rem 1rem 3.5rem !important;
+            border-radius: 1.25rem !important;
+            font-size: 1rem !important;
+        }
+    }
+
     select:focus, input:focus {
         border-color: #3b82f6 !important;
         background-color: #f8fafc !important;

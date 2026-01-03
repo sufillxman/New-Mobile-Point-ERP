@@ -1,79 +1,81 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="flex flex-col space-y-6 mb-10">
+<div class="flex flex-col space-y-4 md:space-y-6 mb-6 md:mb-10 px-1">
     <div class="flex justify-between items-end">
         <div>
-            <h2 class="text-3xl font-black text-slate-900 tracking-tighter uppercase">Customers</h2>
-            <p class="text-slate-500 font-bold text-sm italic">Grahak ki list aur unka udhaar</p>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter uppercase leading-none">Customers</h2>
+            <p class="text-slate-500 font-bold text-[10px] md:text-sm italic">Grahak ki list aur unka udhaar</p>
         </div>
         <a href="{% url 'add_customer' %}" class="hidden md:flex bg-green-600 text-white px-6 py-3 rounded-2xl hover:bg-green-700 shadow-xl shadow-green-900/20 items-center font-black transition-all active:scale-95">
             <i class="fas fa-plus mr-2"></i> NEW CUSTOMER
         </a>
     </div>
     
-    <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex flex-col md:flex-row gap-3">
         <form method="GET" class="flex flex-1 relative group">
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-            <input type="text" name="q" value="{{ query }}" placeholder="Search name or phone..." 
-                   class="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 focus:border-blue-500 bg-white outline-none font-bold text-slate-800 transition-all shadow-sm">
-            <button type="submit" class="absolute right-2 top-2 bottom-2 bg-blue-600 text-white px-6 rounded-xl hover:bg-blue-700 transition font-black text-xs uppercase tracking-widest">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs md:text-base transition-colors"></i>
+            <input type="text" name="q" value="{{ query }}" placeholder="Name or phone..." 
+                   class="w-full pl-10 md:pl-12 pr-4 py-3 md:py-4 rounded-xl md:rounded-2xl border-2 border-slate-200 focus:border-blue-500 bg-white outline-none font-bold text-slate-800 text-sm md:text-base transition-all shadow-sm">
+            <button type="submit" class="absolute right-1.5 top-1.5 bottom-1.5 bg-blue-600 text-white px-4 md:px-6 rounded-lg md:rounded-xl hover:bg-blue-700 transition font-black text-[10px] uppercase tracking-widest">
                 Search
             </button>
         </form>
-        <a href="{% url 'add_customer' %}" class="md:hidden w-full bg-green-600 text-white py-4 rounded-2xl hover:bg-green-700 shadow-lg text-center font-black transition-all">
-            <i class="fas fa-user-plus mr-2"></i> ADD NEW CUSTOMER
+        <a href="{% url 'add_customer' %}" class="md:hidden w-full bg-green-600 text-white py-3 rounded-xl hover:bg-green-700 shadow-lg text-center font-black text-xs uppercase tracking-widest transition-all">
+            <i class="fas fa-user-plus mr-2"></i> Add Customer
         </a>
     </div>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 px-1">
     {% for customer in customers %}
-    <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 hover:shadow-2xl transition duration-300 border border-slate-50 overflow-hidden group relative">
+    <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 overflow-hidden group relative">
         
-        <div class="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div class="bg-blue-600 text-white p-2 rounded-full text-xs">
+        <div class="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="bg-blue-600 text-white p-1.5 rounded-full text-[8px]">
                 <i class="fas fa-star"></i>
             </div>
         </div>
 
-        <div class="p-8 flex flex-col items-center">
-            <div class="relative mb-6">
-                <div class="absolute inset-0 bg-blue-600 rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
+        <div class="p-5 md:p-8 flex flex-col items-center">
+            <div class="relative mb-4 md:mb-6">
+                <div class="absolute inset-0 bg-blue-600 rounded-full blur-lg opacity-10 group-hover:opacity-30 transition-opacity"></div>
                 {% if customer.photo %}
-                    <img src="{{ customer.photo.url }}" class="relative w-24 h-24 rounded-3xl object-cover border-4 border-white shadow-xl group-hover:rotate-3 transition-transform">
+                    <img src="{{ customer.photo.url }}" class="relative w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-3xl object-cover border-2 md:border-4 border-white shadow-lg group-hover:rotate-3 transition-transform">
                 {% else %}
-                    <div class="relative w-24 h-24 rounded-3xl bg-slate-100 flex items-center justify-center border-4 border-white shadow-xl group-hover:bg-blue-50 transition-colors">
-                        <i class="fas fa-user text-4xl text-slate-300"></i>
+                    <div class="relative w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-3xl bg-slate-50 flex items-center justify-center border-2 md:border-4 border-white shadow-lg group-hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-user text-2xl md:text-4xl text-slate-200"></i>
                     </div>
                 {% endif %}
             </div>
             
-            <h4 class="text-xl font-black text-slate-800 mb-1 group-hover:text-blue-600 transition-colors">{{ customer.name }}</h4>
+            <h4 class="text-base md:text-xl font-black text-slate-800 mb-1 group-hover:text-blue-600 transition-colors truncate w-full text-center px-2">
+                {{ customer.name }}
+            </h4>
             
-            <a href="tel:{{ customer.phone }}" class="text-blue-600 font-black bg-blue-50 px-4 py-1.5 rounded-xl text-xs mb-4 hover:bg-blue-600 hover:text-white transition-all">
-                <i class="fas fa-phone-alt mr-2"></i> {{ customer.phone }}
+            <a href="tel:{{ customer.phone }}" class="text-blue-600 font-black bg-blue-50 px-3 py-1 rounded-lg text-[10px] md:text-xs mb-3 hover:bg-blue-600 hover:text-white transition-all">
+                <i class="fas fa-phone-alt mr-1"></i> {{ customer.phone }}
             </a>
             
-            <p class="text-slate-400 text-[11px] font-bold text-center mb-8 uppercase tracking-widest line-clamp-1">
+            <p class="text-slate-400 text-[9px] md:text-[11px] font-bold text-center mb-5 md:mb-8 uppercase tracking-widest line-clamp-1 px-2">
                 <i class="fas fa-map-marker-alt mr-1"></i>
                 {{ customer.address|default:"No address" }}
             </p>
             
             <a href="{% url 'customer_detail' customer.pk %}" 
-               class="w-full text-center py-4 bg-slate-900 text-white rounded-2xl hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 font-black text-xs uppercase tracking-widest">
-                Khatu / History <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+               class="w-full text-center py-3 md:py-4 bg-slate-900 text-white rounded-xl md:rounded-2xl hover:bg-blue-600 transition-all shadow-md font-black text-[10px] uppercase tracking-widest active:scale-95">
+                Khatu / History <i class="fas fa-chevron-right ml-1 text-[8px]"></i>
             </a>
         </div>
     </div>
     {% empty %}
-    <div class="col-span-full py-20 text-center bg-white rounded-[3rem] border-4 border-dashed border-slate-100">
-        <div class="bg-slate-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-users-slash text-4xl text-slate-300"></i>
+    <div class="col-span-full py-12 md:py-20 text-center bg-white rounded-[2rem] md:rounded-[3rem] border-2 md:border-4 border-dashed border-slate-100 mx-1">
+        <div class="bg-slate-50 w-16 h-16 md:w-24 md:h-24 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+            <i class="fas fa-users-slash text-2xl md:text-4xl text-slate-300"></i>
         </div>
-        <h3 class="text-2xl font-black text-slate-800 uppercase">Koi Customer Nahi Mila</h3>
-        <p class="text-slate-400 font-bold mb-8">Search badlo ya naya customer add karo.</p>
-        <a href="{% url 'add_customer' %}" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black shadow-lg hover:bg-blue-700 transition-all">
+        <h3 class="text-lg md:text-2xl font-black text-slate-800 uppercase">Koi Customer Nahi Mila</h3>
+        <p class="text-slate-400 font-bold text-xs md:text-sm mb-6 md:mb-8 px-4">Search badlo ya naya customer add karo.</p>
+        <a href="{% url 'add_customer' %}" class="bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-black shadow-lg hover:bg-blue-700 transition-all text-xs md:text-base">
             Abhi Pehla Customer Jodein
         </a>
     </div>

@@ -7,46 +7,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Smooth transition for sidebar */
         .sidebar-transition { transition: transform 0.3s ease-in-out; }
+        /* Mobile par scrollbar chupaane ke liye */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="bg-gray-100 font-sans text-slate-900">
 
     <div class="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-40 shadow-lg">
-        <span class="font-black uppercase tracking-tighter"><a href="{%url 'dashboard' %}">New Mobile Point</a></span>
-        <button id="mobile-menu-open" class="text-2xl p-2 hover:bg-slate-800 rounded-lg">
+        <span class="font-black uppercase tracking-tighter text-lg">
+            <a href="{% url 'dashboard' %}">NMP ERP</a>
+        </span>
+        <button id="mobile-menu-open" class="text-2xl p-2 hover:bg-slate-800 rounded-lg transition-colors">
             <i class="fas fa-bars"></i>
         </button>
     </div>
 
     <div class="flex h-screen overflow-hidden">
         
-        <aside id="main-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col shrink-0 transform -translate-x-full md:relative md:translate-x-0 sidebar-transition shadow-2xl md:shadow-none">
+        <aside id="main-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 text-white flex flex-col shrink-0 transform -translate-x-full md:relative md:translate-x-0 sidebar-transition shadow-2xl md:shadow-none">
             
             <div class="p-6 text-xl font-black border-b border-slate-700 flex justify-between items-center">
-                <a href="{% url 'dashboard' %}" class="tracking-tighter uppercase">New Mobile Point</a>
-                <button id="mobile-menu-close" class="md:hidden text-slate-400 hover:text-white">
+                <a href="{% url 'dashboard' %}" class="tracking-tighter uppercase text-green-500">New Mobile Point</a>
+                <button id="mobile-menu-close" class="md:hidden text-slate-400 hover:text-white p-2">
                     <i class="fas fa-times text-2xl"></i>
                 </button>
             </div>
             
-            <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <nav class="flex-1 p-4 space-y-3 overflow-y-auto no-scrollbar">
                 <a href="{% url 'dashboard' %}" class="flex items-center p-3 rounded-xl transition-all {% if request.resolver_match.url_name == 'dashboard' %}bg-green-600 text-white shadow-lg shadow-green-900/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
-                    <i class="fas fa-home mr-3 w-5"></i> <span class="font-bold">Dashboard</span>
+                    <i class="fas fa-home mr-3 w-6 text-center"></i> <span class="font-bold">Dashboard</span>
                 </a>
                 
-                <a href="{% url 'customer_list' %}" class="flex items-center p-3 rounded-xl transition-all {% if request.resolver_match.url_name == 'customer_list' or request.resolver_match.url_name == 'add_customer' or request.resolver_match.url_name == 'customer_detail' %}bg-green-600 text-white shadow-lg shadow-green-900/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
-                    <i class="fas fa-users mr-3 w-5"></i> <span class="font-bold">Customers</span>
+                <a href="{% url 'customer_list' %}" class="flex items-center p-3 rounded-xl transition-all {% if 'customer' in request.resolver_match.url_name %}bg-green-600 text-white shadow-lg shadow-green-900/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
+                    <i class="fas fa-users mr-3 w-6 text-center"></i> <span class="font-bold">Customers</span>
                 </a>
                 
-                <a href="{% url 'stock_list' %}" class="flex items-center p-3 rounded-xl transition-all {% if request.resolver_match.url_name == 'stock_list' or request.resolver_match.url_name == 'add_product' %}bg-green-600 text-white shadow-lg shadow-green-900/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
-                    <i class="fas fa-boxes mr-3 w-5"></i> <span class="font-bold">Stock</span>
+                <a href="{% url 'stock_list' %}" class="flex items-center p-3 rounded-xl transition-all {% if 'stock' in request.resolver_match.url_name or 'product' in request.resolver_match.url_name %}bg-green-600 text-white shadow-lg shadow-green-900/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
+                    <i class="fas fa-boxes mr-3 w-6 text-center"></i> <span class="font-bold">Stock</span>
+                </a>
+
+                <a href="{% url 'create_invoice' %}" class="flex items-center p-3 rounded-xl transition-all {% if 'invoice' in request.resolver_match.url_name %}bg-green-600 text-white shadow-lg shadow-green-900/20{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
+                    <i class="fas fa-file-invoice-dollar mr-3 w-6 text-center"></i> <span class="font-bold">Billing</span>
                 </a>
                 
                 <div class="pt-6 mt-6 border-t border-slate-800">
-                    <a href="{% url 'create_invoice' %}" class="flex items-center p-4 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/40 hover:bg-blue-500 transition-all transform active:scale-95">
-                        <i class="fas fa-plus-circle mr-3 text-xl"></i> <span class="font-black uppercase tracking-widest text-xs">New Bill</span>
+                    <a href="{% url 'create_invoice' %}" class="flex items-center p-4 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/40 hover:bg-blue-500 transition-all transform active:scale-95 group">
+                        <i class="fas fa-plus-circle mr-3 text-xl group-hover:rotate-90 transition-transform"></i> <span class="font-black uppercase tracking-widest text-xs">New Bill</span>
                     </a>
                 </div>
             </nav>
@@ -56,27 +63,31 @@
                     {% csrf_token %}
                     <button type="submit" class="w-full flex items-center justify-center p-3 rounded-xl bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white transition-all font-bold text-sm">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                    </button>
+                    </a>
                 </form>
             </div>
         </aside>
 
-        <main class="flex-1 overflow-y-auto w-full">
-            <div class="p-4 md:p-8 max-w-7xl mx-auto">
+        <main class="flex-1 overflow-y-auto w-full relative">
+            <div class="p-4 md:p-8 max-w-full lg:max-w-7xl mx-auto">
                 {% if messages %}
+                    <div class="space-y-4 mb-6">
                     {% for message in messages %}
-                        <div class="p-4 mb-6 bg-green-50 text-green-700 rounded-2xl border border-green-100 shadow-sm flex items-center animate-bounce">
+                        <div class="p-4 bg-green-50 text-green-700 rounded-2xl border border-green-100 shadow-sm flex items-center animate-bounce">
                             <i class="fas fa-check-circle mr-3 text-xl"></i> 
                             <span class="font-bold">{{ message }}</span>
                         </div>
                     {% endfor %}
+                    </div>
                 {% endif %}
 
-                {% block content %}{% endblock %}
+                <div class="animate-fade-in">
+                    {% block content %}{% endblock %}
+                </div>
             </div>
         </main>
 
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity duration-300"></div>
     </div>
 
     <script>
@@ -93,6 +104,11 @@
         openBtn.addEventListener('click', toggleSidebar);
         closeBtn.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', toggleSidebar);
+
+        // Sidebar ke bahar click karne par band ho jaye
+        window.addEventListener('click', (e) => {
+            if (e.target === overlay) toggleSidebar();
+        });
     </script>
 </body>
 </html>
