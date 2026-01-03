@@ -4,7 +4,7 @@ from datetime import date
 
 class Customer(models.Model):
     name = models.CharField(max_length=200, verbose_name="Customer Name")
-    phone = models.CharField(max_length=15, unique=True, verbose_name="Mobile Number")
+    phone = models.CharField(max_length=10, unique=True, verbose_name="Mobile Number")
     address = models.TextField(blank=True, null=True)
     photo = models.ImageField(upload_to='customers/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -57,7 +57,7 @@ class Invoice(models.Model):
         return f"Bill #{self.id} - {self.customer.name}"
 
 class Expense(models.Model):
-    EXPENSE_TYPES = [
+    EXPENSE_TYPES = [   
         ('Rent', 'Rent'),
         ('Electricity', 'Electricity'),
         ('Tea/Food', 'Tea & Snacks'),

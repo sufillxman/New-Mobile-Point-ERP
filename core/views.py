@@ -141,15 +141,32 @@ def invoice_detail(request, pk):
 @login_required
 def add_payment(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
+    
     if request.method == "POST":
-        received = request.POST.get('amount_received')
-        if received:
-            invoice.amount_paid += Decimal(received)
+        received_str = request.POST.get('amount_received')
+        
+        if received_str:
+            # String ko Number (Decimal) mein badlo
+            received_amount = Decimal(received_str) 
+            
+            # 1. Purane jama mein naya amount jodo
+            invoice.amount_paid += received_amount
+            
+            # 2. Safety check: Total se zyada paise nahi le sakte
             if invoice.amount_paid > invoice.total_amount:
                 invoice.amount_paid = invoice.total_amount
+            
+            # 3. Save karte hi models.py wala logic balance nikaal dega
             invoice.save()
-            messages.success(request, "Payment Updated!")
-            return redirect('dashboard' if invoice.balance_amount == 0 else 'customer_detail', pk=invoice.customer.pk)
+            
+            messages.success(request, f"₹{received_amount} jama ho gaye!")
+            
+            # 4. Agar poora paisa aa gaya toh Dashboard, warna wapas Detail page
+            if invoice.balance_amount == 0:
+                return redirect('dashboard')
+            else:
+                return redirect('customer_detail', pk=invoice.customer.pk)
+                
     return render(request, 'core/add_payment.html', {'invoice': invoice})
 
 @login_required

@@ -2,186 +2,136 @@
 {% load static %}
 
 {% block content %}
-<div class="mb-6 print:hidden flex justify-between items-center max-w-[21cm] mx-auto">
-    <a href="{% url 'dashboard' %}" class="text-gray-600 hover:text-slate-900 font-medium">
-        <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+<div class="mb-6 print:hidden flex flex-col md:flex-row justify-between items-center gap-4 max-w-4xl mx-auto px-4">
+    <a href="{% url 'dashboard' %}" class="text-slate-500 hover:text-slate-900 font-bold text-sm flex items-center">
+        <i class="fas fa-arrow-left mr-2"></i> Dashboard
     </a>
-    <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 font-bold flex items-center">
-        <i class="fas fa-print mr-2"></i> Print Bill
+    <button onclick="window.print()" class="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-blue-700 font-black text-xs uppercase tracking-widest flex items-center justify-center transition-all active:scale-95">
+        <i class="fas fa-print mr-2 text-lg"></i> Print Official Bill
     </button>
 </div>
 
-<div class="bg-white w-[21cm] min-h-[29.7cm] mx-auto p-8 shadow-2xl print:shadow-none print:w-full print:p-0 print:m-0 font-serif text-slate-900 leading-tight relative">
+<div class="bg-white w-full md:w-[21cm] min-h-auto md:min-h-[29.7cm] mx-auto p-4 md:p-12 shadow-2xl print:shadow-none print:w-full print:p-0 print:m-0 font-serif text-slate-900 leading-tight relative border border-slate-100 print:border-none rounded-[2rem] md:rounded-none">
     
-    <div class="flex justify-between items-start border-b-2 border-slate-800 pb-2 mb-2">
-        <div class="text-sm font-bold">TAX INVOICE</div>
-        <div class="text-sm font-bold">Mo. 7096464491</div>
+    <div class="flex justify-between items-start border-b-2 border-slate-800 pb-2 mb-4">
+        <div class="text-[10px] md:text-sm font-bold uppercase tracking-widest">Tax Invoice</div>
+        <div class="text-[10px] md:text-sm font-bold">Mo. 7096464491</div>
     </div>
     
-    <div class="text-center mb-4">
-        <h1 class="text-5xl font-bold text-[#a52a2a]" style="font-family: 'Times New Roman', serif;">New Mobile Point</h1>
+    <div class="text-center mb-6">
+        <h1 class="text-3xl md:text-6xl font-black text-[#a52a2a] tracking-tighter" style="font-family: 'Times New Roman', serif;">New Mobile Point</h1>
+        <p class="text-[10px] md:text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">Smartphones • Accessories • Service</p>
     </div>
 
-    <div class="flex justify-between mb-2">
-        <div class="text-lg">
-            <span class="font-bold">Bill No.</span> <span class="ml-2 border-b border-dotted border-slate-400 px-2">{{ invoice.id }}</span>
+    <div class="grid grid-cols-2 mb-6 gap-4 border-b border-slate-100 pb-4 md:border-none">
+        <div class="text-sm md:text-lg">
+            <span class="font-bold">Bill No:</span> <span class="ml-1 border-b border-dotted border-slate-400 px-2 font-mono">#{{ invoice.id }}</span>
         </div>
-        <div class="text-lg">
-            <span class="font-bold">Date :</span> <span class="ml-2 border-b border-dotted border-slate-400 px-2">{{ invoice.sale_date|date:"d/m/Y" }}</span>
-        </div>
-    </div>
-
-    <div class="mb-2 flex items-end">
-        <span class="font-bold text-lg mr-2">Name :</span>
-        <div class="flex-grow border-b border-dotted border-slate-400 text-xl px-2 relative top-[2px]">
-            {{ invoice.customer.name }}
+        <div class="text-sm md:text-lg text-right">
+            <span class="font-bold">Date:</span> <span class="ml-1 border-b border-dotted border-slate-400 px-2">{{ invoice.sale_date|date:"d/m/Y" }}</span>
         </div>
     </div>
 
-    <div class="flex mb-4">
-        <div class="w-1/2 flex items-end">
-            <span class="font-bold mr-2">GSTIN :</span>
-            <div class="flex-grow border-b border-dotted border-slate-400 px-2"></div>
-        </div>
-        <div class="w-1/2 flex items-end">
-            <span class="font-bold mr-2">Address :</span>
-            <div class="flex-grow border-b border-dotted border-slate-400 px-2 text-sm truncate">
-                {{ invoice.customer.address }}
+    <div class="space-y-4 mb-8">
+        <div class="flex items-end">
+            <span class="font-bold text-sm md:text-lg mr-2 shrink-0">Name:</span>
+            <div class="flex-grow border-b border-dotted border-slate-400 text-base md:text-xl px-2 font-bold text-blue-900">
+                {{ invoice.customer.name }}
             </div>
         </div>
-    </div>
-
-    <table class="w-full border-2 border-slate-800 mb-0">
-        <thead>
-            <tr class="border-b-2 border-slate-800 text-center font-bold">
-                <th class="w-[60%] py-1 border-r-2 border-slate-800">Particulars</th>
-                <th class="w-[15%] py-1 border-r-2 border-slate-800">Qty.</th>
-                <th class="w-[25%] py-1">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="text-xl h-[180px] align-top">
-                <td class="p-2 border-r-2 border-slate-800 relative">
-                    <div class="mb-2">{{ invoice.product.brand }} - Mobile</div>
-                    <div class="flex mb-2">
-                        <span class="font-bold mr-2">Model No.</span>
-                        <span class="border-b border-dotted border-slate-400 px-2 flex-grow">{{ invoice.product.model_name }}</span>
-                    </div>
-                    <div class="flex">
-                        <span class="font-bold mr-2">IMEI No.</span>
-                        <span class="border-b border-dotted border-slate-400 px-2 flex-grow font-mono text-lg">{{ invoice.product.imei }}</span>
-                    </div>
-                    
-                    <div class="absolute bottom-2 left-2 right-2 flex items-end">
-                        <span class="font-bold mr-2">Mobile No.</span>
-                        <span class="flex-grow border-b border-dotted border-slate-400 px-2">{{ invoice.customer.phone }}</span>
-                    </div>
-                </td>
-                <td class="p-2 text-center border-r-2 border-slate-800 pt-4">1</td>
-                <td class="p-2 text-center pt-4 font-bold relative">
-                    {{ invoice.total_amount }}
-                    <div class="absolute top-16 right-1/2 h-24 border-r-2 border-slate-800"></div>
-                    <div class="absolute top-4 right-2 text-xl">-</div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="flex border-2 border-t-0 border-slate-800">
-        <div class="w-[60%] p-2 border-r-2 border-slate-800 flex flex-col justify-end">
-            <div class="flex items-end mb-2">
-                <span class="font-bold mr-2">Rs.in word</span>
-                <div class="flex-grow border-b border-slate-800 px-2 italic">
-                    {{ invoice.total_amount }} Only /-
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="w-full md:w-1/2 flex items-end">
+                <span class="font-bold text-xs mr-2">Address:</span>
+                <div class="flex-grow border-b border-dotted border-slate-400 px-2 text-xs">
+                    {{ invoice.customer.address|default:"Local" }}
                 </div>
             </div>
-            <div class="border-b border-slate-800 h-6 w-full"></div>
-        </div>
-        
-        <div class="w-[40%]">
-            <div class="flex justify-between border-b border-slate-800 p-1">
-                <span class="font-bold">TOTAL</span>
-                <span></span>
-            </div>
-            <div class="flex justify-between border-b border-slate-800 p-1">
-                <span class="font-bold">CGST ..... %</span>
-                <span></span>
-            </div>
-            <div class="flex justify-between border-b-2 border-slate-800 p-1">
-                <span class="font-bold">SGST ..... %</span>
-                <span></span>
-            </div>
-            <div class="flex justify-between p-1 text-xl font-bold">
-                <span>G.TOTAL</span>
-                <span>{{ invoice.total_amount }} /-</span>
+            <div class="w-full md:w-1/2 flex items-end">
+                <span class="font-bold text-xs mr-2">Phone:</span>
+                <div class="flex-grow border-b border-dotted border-slate-400 px-2 text-xs">
+                    {{ invoice.customer.phone }}
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="mt-2 text-xs font-bold leading-snug">
-        <p>(૧) મોબાઈલ સર્વિસ માટે કંપનીમાં લઈ જવાની અને લાવવાની સંપૂર્ણ જવાબદારી અમારી રહેશે.</p>
-        <p>(૨) એક્ટીવેશન થયેલો માલ પરત લેવામાં આવશે નહી. પાણી અડવાથી કે શોર્ટસર્કિટ અથવા મોબાઈલ નીચે પડવાથી થતા નુકશાનમાં કંપની વોરંટી/ગેરંટી આપતી નથી.</p>
-        <p>(૩) કંપનીના સર્વિસ સેન્ટરમાં રીપેરમાં મોકલાવેલ મોબાઈલ ફોનની પરત સમય મર્યાદા કંપનીના નિયમો મુજબ રહેશે.</p>
-        <p>(૪) મોબાઈલની વોરંટી બાર માસની અને બેટરી તથા ચાર્જરની છ માસની ગેરંટી રહેશે.</p>
+    <div class="overflow-x-auto mb-6">
+        <table class="w-full border-2 border-slate-800 min-w-[500px] md:min-w-0">
+            <thead>
+                <tr class="border-b-2 border-slate-800 text-center font-bold bg-slate-50">
+                    <th class="py-2 border-r-2 border-slate-800">Particulars</th>
+                    <th class="w-[15%] py-2 border-r-2 border-slate-800">Qty</th>
+                    <th class="w-[25%] py-2">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-sm md:text-lg h-32 align-top">
+                    <td class="p-4 border-r-2 border-slate-800 space-y-2">
+                        <div class="font-black text-slate-800 uppercase">{{ invoice.product.brand }} MOBILE</div>
+                        <div class="text-xs">Model: <span class="font-bold">{{ invoice.product.model_name }}</span></div>
+                        <div class="text-xs">IMEI: <span class="font-mono font-bold">{{ invoice.product.imei }}</span></div>
+                    </td>
+                    <td class="p-4 text-center border-r-2 border-slate-800 font-bold">1</td>
+                    <td class="p-4 text-right font-black text-xl">₹{{ invoice.total_amount }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="flex justify-between items-end mt-6 relative">
-        <div class="text-sm font-bold">
-            <p>GSTIN:24DZUPM0330M1Z1</p>
-            <p class="text-xs">Subject to danta Jurisdiction</p>
+    <div class="flex flex-col md:flex-row border-2 border-slate-800 mb-8">
+        <div class="w-full md:w-[60%] p-4 border-b-2 md:border-b-0 md:border-r-2 border-slate-800">
+            <p class="text-[10px] font-bold uppercase text-slate-400 mb-1">Amount in Words</p>
+            <p class="italic font-bold text-sm underline decoration-dotted">{{ invoice.total_amount }} Rupees Only /-</p>
         </div>
-        <div class="text-center relative z-10">
-            <p class="font-bold text-[#4b0082] text-lg mb-4" style="font-family: 'Times New Roman', serif;">New Mobile Point</p>
-            <p class="font-bold text-[#4b0082] text-lg">Proprietor</p>
-        </div>
-        <div class="absolute right-2 bottom-6 opacity-30 pointer-events-none z-0">
-            <p class="font-bold text-4xl text-[#4b0082] transform -rotate-12" style="font-family: 'Brush Script MT', cursive;">Signature</p>
+        <div class="w-full md:w-[40%] divide-y divide-slate-200">
+            <div class="flex justify-between p-3">
+                <span class="font-bold text-xs">SUBTOTAL</span>
+                <span class="font-bold">₹{{ invoice.total_amount }}</span>
+            </div>
+            <div class="flex justify-between p-3 bg-slate-50 font-black text-lg">
+                <span>GRAND TOTAL</span>
+                <span class="text-blue-700">₹{{ invoice.total_amount }} /-</span>
+            </div>
         </div>
     </div>
 
-    <div class="border-t-2 border-slate-800 mt-2 pt-1 text-center font-bold text-sm">
-        Shop No.H-6, Katyayni Market,Nr.Jio Store,Danta,Dist.B.K.-385120
+    <div class="mt-4 text-[9px] md:text-xs font-bold leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100">
+        <p>૧. મોબાઈલ સર્વિસ માટે કંપનીમાં લઈ જવાની જવાબદારી અમારી રહેશે.</p>
+        <p>૨. એક્ટીવેશન થયેલો માલ પરત લેવામાં આવશે નહી. ડેમેજ માલની વોરંટી મળતી નથી.</p>
+        <p>૩. રીપેરીંગ સમય મર્યાદા કંપનીના નિયમો મુજબ રહેશે.</p>
     </div>
 
+    <div class="mt-12 flex justify-between items-end px-4 pb-10 md:pb-0">
+        <div class="text-[10px] font-bold">
+            <p>GSTIN: 24DZUPM0330M1Z1</p>
+            <p class="text-slate-400 uppercase">Subject to danta Jurisdiction</p>
+        </div>
+        <div class="text-center">
+            <p class="font-black text-slate-900 text-sm mb-8 uppercase">For, New Mobile Point</p>
+            <div class="border-t border-slate-400 pt-1">
+                <p class="font-bold text-xs uppercase tracking-widest">Authorized Signatory</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
+    /* Screen pe fonts alag, Print pe alag */
     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@400;700&display=swap');
 
-    body {
-        font-family: 'Times New Roman', serif;
-    }
-    .gujarati-text {
-        font-family: 'Noto Serif Gujarati', serif;
-    }
-
     @media print {
-        @page {
-            size: A4;
-            margin: 0; /* Important for exact fit */
-        }
-        body * { visibility: hidden; }
+        @page { size: A4; margin: 0; }
+        body { background: white; }
         .print\:hidden { display: none !important; }
-        #sidebar, nav, header, footer { display: none !important; }
+        aside, nav, .flex-col.md\:flex-row { display: none !important; }
         
-        /* Show only the bill container */
-        .w-\[21cm\] {
-            visibility: visible;
-            position: absolute;
-            left: 0;
-            top: 0;
+        /* Force the bill to fill the paper */
+        .md\:w-\[21cm\] {
             width: 100% !important;
-            height: 100% !important;
             margin: 0 !important;
-            padding: 20px !important; /* Thoda padding print ke liye */
+            padding: 40px !important;
             box-shadow: none !important;
             border: none !important;
-            background-color: white !important;
-            print-color-adjust: exact;
-            -webkit-print-color-adjust: exact;
-        }
-        .w-\[21cm\] * {
-            visibility: visible;
         }
     }
 </style>

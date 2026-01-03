@@ -1,36 +1,37 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="max-w-xl mx-auto py-8 px-4">
-    <div class="mb-8 flex justify-between items-end">
+<div class="max-w-xl mx-auto py-4 md:py-8 px-2 md:px-4">
+    <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-            <h2 class="text-3xl font-black text-slate-800">Add Expense</h2>
-            <p class="text-slate-500 font-medium">Record shop expenses</p>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800 tracking-tighter uppercase">Add Expense</h2>
+            <p class="text-slate-500 font-bold text-sm">Dukan ke kharche record karein</p>
         </div>
-        <div class="bg-red-50 px-4 py-2 rounded-xl border border-red-100 text-right">
-            <p class="text-[10px] font-black text-red-400 uppercase tracking-widest">Month Total</p>
-            <p class="text-xl font-black text-red-600">₹{{ total_expense }}</p>
+        <div class="bg-red-50 px-5 py-3 rounded-2xl border border-red-100 shadow-sm w-full md:w-auto text-center md:text-right">
+            <p class="text-[10px] font-black text-red-400 uppercase tracking-widest">Is Mahine ka Kharcha</p>
+            <p class="text-2xl font-black text-red-600">₹{{ total_expense }}</p>
         </div>
     </div>
 
-    <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-        <form method="POST" class="p-8 md:p-12 space-y-8">
+    <div class="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+        <form method="POST" class="p-6 md:p-12 space-y-6 md:space-y-8">
             {% csrf_token %}
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div class="space-y-2">
-                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Type</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Expense Type</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                             <i class="fas fa-tag"></i>
                         </div>
                         {{ form.expense_type }}
                     </div>
                 </div>
+
                 <div class="space-y-2">
-                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Date</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Date</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                             <i class="fas fa-calendar"></i>
                         </div>
                         {{ form.date }}
@@ -39,31 +40,31 @@
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Expense Details</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Expense Details (Kahan kharch hua?)</label>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                         <i class="fas fa-pen-nib"></i>
                     </div>
                     {{ form.title }}
                 </div>
             </div>
 
-            <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                <label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-3 text-center">Amount to be Deducted</label>
+            <div class="bg-slate-50 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 shadow-inner">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-4 text-center">Amount to be Deducted</label>
                 <div class="relative">
-                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-3xl font-black text-slate-300">₹</span>
+                    <span class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-2xl md:text-3xl font-black text-slate-300">₹</span>
                     <input type="number" name="amount" step="0.01" required
-                        class="w-full pl-14 pr-6 py-5 bg-white border-2 border-slate-200 rounded-2xl text-3xl font-black text-red-600 focus:border-red-500 focus:ring-0 transition-all text-center"
+                        class="w-full pl-12 md:pl-14 pr-6 py-4 md:py-6 bg-white border-2 border-slate-200 rounded-2xl text-3xl md:text-4xl font-black text-red-600 focus:border-red-500 focus:ring-0 transition-all text-center placeholder-slate-200"
                         placeholder="0.00">
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3 pt-4">
-                <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-red-600 shadow-xl shadow-slate-200 transition-all active:scale-[0.98] flex items-center justify-center gap-3">
-                    <i class="fas fa-save"></i> Save Expense
+            <div class="flex flex-col gap-4 pt-4">
+                <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-red-600 shadow-xl shadow-slate-200 transition-all transform active:scale-[0.97] flex items-center justify-center gap-3">
+                    <i class="fas fa-save"></i> SAVE EXPENSE
                 </button>
-                <a href="{% url 'dashboard' %}" class="w-full text-center py-3 text-slate-400 font-bold hover:text-slate-800 transition-colors">
-                    Back to Dashboard
+                <a href="{% url 'dashboard' %}" class="w-full text-center py-2 text-slate-400 font-bold hover:text-slate-800 transition-colors text-sm">
+                    <i class="fas fa-times-circle mr-1"></i> Cancel & Back
                 </a>
             </div>
         </form>
@@ -72,19 +73,21 @@
 
 <style>
     select, input[type="date"], input[type="text"] {
-        width: 100%;
+        width: 100% !important;
         padding: 1rem 1rem 1rem 3rem !important;
-        background-color: #f8fafc;
-        border: 2px solid #f1f5f9;
-        border-radius: 1rem;
-        font-weight: 700;
-        color: #1e293b;
-        transition: all 0.2s;
+        background-color: #f8fafc !important;
+        border: 2px solid #f1f5f9 !important;
+        border-radius: 1rem !important;
+        font-weight: 700 !important;
+        color: #1e293b !important;
+        transition: all 0.2s !important;
+        -webkit-appearance: none; /* Mobile pe default arrows hatane ke liye */
     }
     select:focus, input:focus {
-        background-color: white;
-        border-color: #3b82f6;
-        outline: none;
+        background-color: white !important;
+        border-color: #3b82f6 !important;
+        outline: none !important;
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1) !important;
     }
 </style>
 {% endblock %}
