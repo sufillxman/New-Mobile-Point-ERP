@@ -35,19 +35,27 @@
                     <label class="block text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Model Name</label>
                     <div class="relative">
                         <i class="fas fa-tag absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs md:text-base"></i>
-                        <input type="text" name="model_name" required placeholder="Ex: Galaxy S24" 
+                        <input type="text" name="model_name" required placeholder="Ex: OPPO ABC" 
                                class="w-full pl-10 md:pl-12 pr-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold text-sm md:text-base">
                     </div>
                 </div>
             </div>
 
             <div class="space-y-1.5 md:space-y-2">
-                <label class="block text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">IMEI / Serial Number</label>
+                <label class="block text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">IMEI / Serial Number (15 Digits)</label>
                 <div class="relative">
                     <i class="fas fa-barcode absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs md:text-base"></i>
-                    <input type="text" name="imei" required placeholder="Enter 15 digit IMEI" 
+                    <input type="text" 
+                           name="imei" 
+                           id="imei_field"
+                           required 
+                           maxlength="15" 
+                           minlength="15"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                           placeholder="Enter 15 digit IMEI" 
                            class="w-full pl-10 md:pl-12 pr-4 py-3 md:py-4 bg-blue-50 border-2 border-blue-100 rounded-xl md:rounded-2xl focus:border-blue-500 outline-none transition-all font-black tracking-widest text-blue-900 text-sm md:text-base">
                 </div>
+                <p id="imei_help" class="text-[8px] md:text-[9px] text-slate-400 font-bold ml-1 uppercase">Sirf numbers aur exactly 15 digits zaroori hain.</p>
             </div>
 
             <div class="bg-slate-50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 shadow-inner">
@@ -78,4 +86,18 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Real-time border color change for IMEI
+    const imeiInput = document.getElementById('imei_field');
+    imeiInput.addEventListener('input', function() {
+        if (this.value.length === 15) {
+            this.classList.remove('border-blue-100');
+            this.classList.add('border-green-500');
+        } else {
+            this.classList.remove('border-green-500');
+            this.classList.add('border-blue-100');
+        }
+    });
+</script>
 {% endblock %}

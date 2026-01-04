@@ -6,6 +6,8 @@ from .models import Customer, Product, Invoice, Expense
 from .forms import CustomerForm, InvoiceForm, ProductForm, ExpenseForm
 from decimal import Decimal
 from datetime import date, timedelta
+import base64
+from django.core.files.base import ContentFile
 
 @login_required
 def dashboard(request):
@@ -61,13 +63,26 @@ def dashboard(request):
 def add_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST, request.FILES)
+        photo_data = request.POST.get('photo_data')
+
         if form.is_valid():
-            customer = form.save()
-            messages.success(request, f"Customer {customer.name} added!")
-            next_page = request.GET.get('next')
-            if next_page == 'billing':
-                return redirect('create_invoice')
+            customer = form.save(commit=False)
+            
+            # Camera photo logic
+            if photo_data and ';base64,' in photo_data:
+                format, imgstr = photo_data.split(';base64,')
+                ext = format.split('/')[-1]
+                data = ContentFile(base64.b64decode(imgstr), name=f'cam_{customer.phone}.{ext}')
+                customer.photo = data
+            
+            customer.save()
+            messages.success(request, f"Customer {customer.name} saved!")
             return redirect('customer_list')
+        else:
+            # Agar form invalid hai (e.g. phone number already exists)
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = CustomerForm()
     return render(request, 'core/add_customer.html', {'form': form})

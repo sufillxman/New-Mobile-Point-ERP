@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if overdue_payments %}
-<div class="mb-6 px-1">
+<div class="mb-4 px-1">
     <button onclick="document.getElementById('overdue-box').classList.toggle('hidden')" 
             class="w-full bg-red-50 border border-red-200 p-3 md:p-4 rounded-2xl flex justify-between items-center group hover:bg-red-100 transition-all shadow-sm">
         <div class="flex items-center text-left">
@@ -11,7 +11,7 @@
                 <i class="fas fa-exclamation-triangle text-xs md:text-base"></i>
             </div>
             <div>
-                <p class="text-red-700 font-black text-[10px] md:text-sm uppercase tracking-tighter">Baki Vasuli</p>
+                <p class="text-red-700 font-black text-[10px] md:text-sm uppercase tracking-tighter">Baki Vasuli (Overdue)</p>
                 <p class="text-red-500 text-[8px] md:text-[10px] font-bold">{{ overdue_payments.count }} customers ki date nikal gayi</p>
             </div>
         </div>
@@ -23,14 +23,49 @@
         <div class="bg-white border-l-4 border-red-600 shadow-md p-3 rounded-xl flex justify-between items-center border border-gray-100">
             <div class="truncate mr-2">
                 <p class="font-black text-slate-800 text-xs md:text-sm truncate">{{ inv.customer.name }}</p>
-                <p class="text-[8px] md:text-[9px] text-red-500 font-bold uppercase">Due: {{ inv.due_date|date:"d M" }}</p>
+                <p class="text-[8px] md:text-[9px] text-red-500 font-bold uppercase tracking-widest">Due Date: {{ inv.due_date|date:"d M" }}</p>
                 <p class="text-xs md:text-sm font-black text-slate-900 mt-0.5">₹{{ inv.balance_amount }}</p>
             </div>
             <div class="flex gap-2 shrink-0">
                 <a href="tel:{{ inv.customer.phone }}" class="p-2 bg-slate-50 text-slate-400 rounded-lg hover:text-blue-600">
                     <i class="fas fa-phone-alt text-[10px]"></i>
                 </a>
-                <a href="{% url 'add_payment' inv.id %}" class="bg-red-600 text-white px-2 py-1.5 rounded-lg text-[9px] font-black uppercase shadow-sm">Vasuli</a>
+                <a href="{% url 'add_payment' inv.id %}" class="bg-red-600 text-white px-3 py-1.5 rounded-lg text-[9px] font-black uppercase shadow-sm">Vasuli</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if upcoming_payments %}
+<div class="mb-6 px-1">
+    <button onclick="document.getElementById('upcoming-box').classList.toggle('hidden')" 
+            class="w-full bg-blue-50 border border-blue-200 p-3 md:p-4 rounded-2xl flex justify-between items-center group hover:bg-blue-100 transition-all shadow-sm">
+        <div class="flex items-center text-left">
+            <div class="p-2 bg-blue-600 text-white rounded-lg mr-3 md:mr-4">
+                <i class="fas fa-bell text-xs md:text-base"></i>
+            </div>
+            <div>
+                <p class="text-blue-700 font-black text-[10px] md:text-sm uppercase tracking-tighter">Kal ki Taiyari (Upcoming)</p>
+                <p class="text-blue-500 text-[8px] md:text-[10px] font-bold">{{ upcoming_payments.count }} payments kal aane wale hain</p>
+            </div>
+        </div>
+        <i class="fas fa-chevron-down text-xs text-blue-400 group-hover:text-blue-600 transition-transform"></i>
+    </button>
+
+    <div id="upcoming-box" class="hidden mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 animate-fade-in">
+        {% for inv in upcoming_payments %}
+        <div class="bg-white border-l-4 border-blue-600 shadow-md p-3 rounded-xl flex justify-between items-center border border-gray-100">
+            <div class="truncate mr-2">
+                <p class="font-black text-slate-800 text-xs md:text-sm truncate">{{ inv.customer.name }}</p>
+                <p class="text-[8px] md:text-[9px] text-blue-500 font-bold uppercase tracking-widest">Aane wala hai: Kal</p>
+                <p class="text-xs md:text-sm font-black text-slate-900 mt-0.5">₹{{ inv.balance_amount }}</p>
+            </div>
+            <div class="flex gap-2 shrink-0">
+                <a href="https://wa.me/91{{ inv.customer.phone }}?text=Hello%20{{ inv.customer.name }},%20apka%20New%20Mobile%20Point%20ka%20payment%20kal%20due%20hai.%20Amount:₹{{ inv.balance_amount }}" target="_blank" class="p-2 bg-green-50 text-green-600 rounded-lg">
+                    <i class="fab fa-whatsapp text-[12px]"></i>
+                </a>
             </div>
         </div>
         {% endfor %}
@@ -39,17 +74,17 @@
 {% endif %}
 
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4 bg-white p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-100 mx-1">
-    <div class="w-full lg:w-auto text-left">
-        <h1 class="text-xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter leading-none">New Mobile Point</h1>
-        <div class="flex flex-wrap items-center gap-2 mt-2">
+    <div class="w-full lg:w-auto">
+        <h1 class="text-xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">New Mobile Point</h1>
+        <div class="flex items-center gap-2 mt-2">
             <p class="text-gray-500 text-[9px] md:text-sm font-medium border-r pr-2 italic">Hi, {{ request.user.username|title }}</p>
             <form method="GET" class="flex gap-1">
-                <select name="month" onchange="this.form.submit()" class="text-[8px] md:text-[10px] font-bold bg-slate-100 border-none rounded-md px-1.5 py-0.5 outline-none">
+                <select name="month" onchange="this.form.submit()" class="text-[8px] md:text-[10px] font-bold bg-slate-100 border-none rounded-md px-2 py-1 outline-none cursor-pointer">
                     {% for m in months_range %}
-                        <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }}</option>
+                        <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>Month: {{ m }}</option>
                     {% endfor %}
                 </select>
-                <select name="year" onchange="this.form.submit()" class="text-[8px] md:text-[10px] font-bold bg-slate-100 border-none rounded-md px-1.5 py-0.5 outline-none">
+                <select name="year" onchange="this.form.submit()" class="text-[8px] md:text-[10px] font-bold bg-slate-100 border-none rounded-md px-2 py-1 outline-none cursor-pointer">
                     {% for y in years_range %}
                         <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
                     {% endfor %}
@@ -65,78 +100,77 @@
 </div>
 
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-8 px-1">
-    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50 group transition-all">
-        <div class="flex justify-between items-center mb-2 md:mb-3">
-            <div class="p-1.5 bg-blue-50 text-blue-600 rounded-lg md:rounded-xl"><i class="fas fa-shopping-cart text-[10px] md:text-xs"></i></div>
-            <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest">Sales</span>
+    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50">
+        <div class="flex justify-between items-center mb-2">
+            <div class="p-1.5 bg-blue-50 text-blue-600 rounded-lg"><i class="fas fa-shopping-cart text-[10px]"></i></div>
+            <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest">Total Sales</span>
         </div>
         <p class="text-sm md:text-xl font-black text-slate-800">₹{{ total_sales }}</p>
     </div>
 
-    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50 group transition-all">
-        <div class="flex justify-between items-center mb-2 md:mb-3">
-            <div class="p-1.5 bg-green-50 text-green-600 rounded-lg md:rounded-xl"><i class="fas fa-wallet text-[10px] md:text-xs"></i></div>
-            <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest text-right">Cash</span>
+    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50">
+        <div class="flex justify-between items-center mb-2">
+            <div class="p-1.5 bg-green-50 text-green-600 rounded-lg"><i class="fas fa-wallet text-[10px]"></i></div>
+            <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest">Cash In</span>
         </div>
         <p class="text-sm md:text-xl font-black text-green-600">₹{{ total_received }}</p>
     </div>
 
-    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50 group transition-all">
-        <div class="flex justify-between items-center mb-2 md:mb-3">
-            <div class="p-1.5 bg-orange-50 text-orange-600 rounded-lg md:rounded-xl"><i class="fas fa-clock text-[10px] md:text-xs"></i></div>
+    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50">
+        <div class="flex justify-between items-center mb-2">
+            <div class="p-1.5 bg-orange-50 text-orange-600 rounded-lg"><i class="fas fa-clock text-[10px]"></i></div>
             <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest">Udhaar</span>
         </div>
         <p class="text-sm md:text-xl font-black text-orange-600">₹{{ total_pending }}</p>
     </div>
 
-    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50 group transition-all relative">
-        <div class="flex justify-between items-center mb-2 md:mb-3">
-            <div class="p-1.5 bg-red-50 text-red-600 rounded-lg md:rounded-xl"><i class="fas fa-receipt text-[10px] md:text-xs"></i></div>
-            <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest text-right">Kharch</span>
+    <div class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-50 relative">
+        <div class="flex justify-between items-center mb-2">
+            <div class="p-1.5 bg-red-50 text-red-600 rounded-lg"><i class="fas fa-receipt text-[10px]"></i></div>
+            <span class="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest">Expense</span>
         </div>
         <p class="text-sm md:text-xl font-black text-red-600">₹{{ total_expense }}</p>
-        <a href="{% url 'add_expense' %}" 
-           class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[8px] font-black px-3 py-1 rounded-full border-2 border-white shadow-lg whitespace-nowrap active:scale-90 transition-all z-10">
-            + ADD
-        </a>
+        <a href="{% url 'add_expense' %}" class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[8px] font-black px-3 py-1 rounded-full border-2 border-white shadow-lg">+ ADD</a>
     </div>
 
     <div id="profit-card" class="hidden bg-slate-900 p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-xl border border-slate-700 text-white col-span-2 md:col-span-1 animate-fade-in">
         <div class="flex justify-between items-center mb-2">
             <div class="p-1.5 bg-slate-800 text-yellow-400 rounded-lg"><i class="fas fa-crown text-xs"></i></div>
-            <span class="text-[7px] md:text-[8px] font-black text-slate-400 uppercase tracking-widest text-right">Net Profit</span>
+            <span class="text-[7px] md:text-[8px] font-black text-slate-400 uppercase tracking-widest">Net Profit</span>
         </div>
         <p class="text-base md:text-xl font-black text-yellow-400">₹{{ net_profit }}</p>
-        <p class="text-[6px] text-slate-500 italic">Final Saving</p>
+        <p class="text-[6px] text-slate-500 italic uppercase">Final Monthly Saving</p>
     </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 px-1">
     <div class="lg:col-span-2 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-4 md:p-6 border-b border-gray-50 bg-slate-50 flex justify-between items-center">
-            <h3 class="font-black text-[10px] md:text-xs uppercase tracking-widest text-slate-800">Active Udhaar</h3>
+        <div class="p-4 md:p-6 border-b border-gray-50 bg-slate-50">
+            <h3 class="font-black text-[10px] md:text-xs uppercase tracking-widest text-slate-800">Active Udhaar List</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead class="bg-slate-50 text-[8px] md:text-[10px] uppercase text-slate-400 font-black">
                     <tr>
                         <th class="px-4 py-3 md:px-6 md:py-4">Customer</th>
-                        <th class="px-4 py-3 md:px-6 md:py-4">Amount</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Pending</th>
                         <th class="px-4 py-3 md:px-6 md:py-4 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     {% for invoice in pending_invoices %}
                     <tr class="hover:bg-blue-50/30 transition-colors">
-                        <td class="px-4 py-3 md:px-6 md:py-4 truncate max-w-[100px] md:max-w-none">
+                        <td class="px-4 py-3 md:px-6 md:py-4">
                             <div class="font-black text-slate-800 text-xs tracking-tighter truncate">{{ invoice.customer.name }}</div>
-                            <div class="text-[8px] font-bold text-slate-400">Due: {{ invoice.due_date|date:"d M" }}</div>
+                            <div class="text-[8px] font-bold text-slate-400 uppercase">Due: {{ invoice.due_date|date:"d M" }}</div>
                         </td>
                         <td class="px-4 py-3 md:px-6 md:py-4 font-black text-orange-600 text-xs md:text-sm">₹{{ invoice.balance_amount }}</td>
                         <td class="px-4 py-3 md:px-6 md:py-4 text-center">
-                            <a href="{% url 'add_payment' invoice.id %}" class="bg-green-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm">Pay</a>
+                            <a href="{% url 'add_payment' invoice.id %}" class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-[9px] font-black uppercase shadow-sm">Pay</a>
                         </td>
                     </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="text-center py-6 text-slate-400 text-xs uppercase font-bold">No Pending Payments!</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -151,16 +185,16 @@
                     <span class="text-slate-400">Available</span>
                     <span class="text-green-600 font-bold">{{ available_products.count }}</span>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-green-500 h-1.5 rounded-full" style="width: 70%"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-green-500 h-1.5 rounded-full" style="width: 75%"></div></div>
             </div>
             <div>
                 <div class="flex justify-between text-[9px] font-black mb-1.5 uppercase">
                     <span class="text-slate-400">Sold Out</span>
                     <span class="text-red-500 font-bold">{{ out_of_stock_count }}</span>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full" style="width: 30%"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full" style="width: 25%"></div></div>
             </div>
-            <a href="{% url 'stock_list' %}" class="block w-full text-center bg-slate-900 text-white py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-slate-800 transition-all mt-4">Manage</a>
+            <a href="{% url 'stock_list' %}" class="block w-full text-center bg-slate-900 text-white py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-slate-800 transition-all mt-4">Manage Inventory</a>
         </div>
     </div>
 </div>

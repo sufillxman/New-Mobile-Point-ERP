@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date
+from decimal import Decimal
 
 class Customer(models.Model):
     name = models.CharField(max_length=200, verbose_name="Customer Name")
@@ -36,12 +37,28 @@ class Invoice(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Final Deal Price")
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Paid Now")
     balance_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, editable=False)
+    
+    # GST Fields
+    taxable_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, editable=False)
+    cgst = models.DecimalField(max_digits=10, decimal_places=2, default=0, editable=False)
+    sgst = models.DecimalField(max_digits=10, decimal_places=2, default=0, editable=False)
+    
     payment_mode = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='CASH')
     transaction_id = models.CharField(max_length=100, blank=True, null=True)
     due_date = models.DateField(null=True, blank=True)
     sale_date = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
+        # GST Calculation (18% Inclusive Logic)
+        gst_rate = Decimal('18')
+        rate_multiplier = Decimal('1') + (gst_rate / Decimal('100'))
+        
+        # Taxable Value = Total / 1.18
+        self.taxable_amount = (self.total_amount / rate_multiplier).quantize(Decimal('0.01'))
+        total_tax = self.total_amount - self.taxable_amount
+        self.cgst = (total_tax / 2).quantize(Decimal('0.01'))
+        self.sgst = (total_tax / 2).quantize(Decimal('0.01'))
+        
         self.balance_amount = self.total_amount - self.amount_paid
         super().save(*args, **kwargs)
 

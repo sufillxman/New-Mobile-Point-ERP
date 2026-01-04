@@ -2,48 +2,48 @@
 {% load static %}
 
 {% block content %}
-<div class="mb-6 print:hidden flex flex-col sm:flex-row justify-between items-center gap-4 max-w-4xl mx-auto px-4">
-    <a href="{% url 'dashboard' %}" class="w-full sm:w-auto text-slate-500 hover:text-slate-900 font-bold text-sm flex items-center justify-center">
+<div class="mb-6 print:hidden flex flex-col sm:flex-row justify-between items-center gap-4 max-w-4xl mx-auto px-4 font-sans">
+    <a href="{% url 'dashboard' %}" class="w-full sm:w-auto text-slate-500 hover:text-slate-900 font-semibold text-sm flex items-center justify-center">
         <i class="fas fa-arrow-left mr-2"></i> Dashboard
     </a>
-    <button onclick="window.print()" class="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-2xl shadow-xl hover:bg-blue-700 font-black text-xs uppercase tracking-widest flex items-center justify-center transition-all active:scale-95">
+    <button onclick="window.print()" class="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-2xl shadow-xl hover:bg-blue-700 font-bold text-xs uppercase tracking-widest flex items-center justify-center transition-all active:scale-95">
         <i class="fas fa-print mr-2 text-lg"></i> Print Official Bill
     </button>
 </div>
 
-<div class="w-full max-w-full overflow-x-hidden md:overflow-visible pb-10">
-    <div class="bg-white w-full md:w-[21cm] min-h-auto md:min-h-[29.7cm] mx-auto p-4 sm:p-6 md:p-12 shadow-2xl print:shadow-none print:w-full print:p-0 print:m-0 font-serif text-slate-900 leading-tight relative border border-slate-200 print:border-none rounded-3xl md:rounded-none">
+<div class="w-full max-w-full overflow-x-hidden md:overflow-visible pb-10 font-sans">
+    <div class="bg-white w-full md:w-[21cm] min-h-auto md:min-h-[29.7cm] mx-auto p-4 sm:p-6 md:p-12 shadow-2xl print:shadow-none print:w-full print:p-0 print:m-0 text-slate-900 leading-tight relative border border-slate-200 print:border-none rounded-3xl md:rounded-none">
         
         <div class="flex justify-between items-start border-b-2 border-red-700 pb-1 mb-4">
             <div class="text-[9px] sm:text-sm font-bold uppercase text-red-700">Tax Invoice</div>
-            <div class="text-[9px] sm:text-sm font-bold text-red-700">Mo. 7096464491</div>
+            <div class="text-[9px] sm:text-sm font-semibold text-red-700">Mo. 7096464491</div>
         </div>
         
         <div class="text-center mb-6">
-            <h1 class="text-3xl sm:text-5xl md:text-7xl font-black text-[#e11d48]" style="font-family: 'Times New Roman', serif;">New Mobile Point</h1>
-            <p class="text-[8px] sm:text-xs md:text-sm font-bold text-slate-600 mt-2 uppercase tracking-[0.1em] sm:tracking-[0.3em]">Smartphones • Accessories • Service</p>
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#e11d48] tracking-tight">New Mobile Point</h1>
+            <p class="text-[8px] sm:text-xs md:text-sm font-semibold text-slate-500 mt-2 uppercase tracking-[0.1em] sm:tracking-[0.2em]">Smartphones • Accessories • Service</p>
         </div>
 
         <div class="flex flex-row justify-between mb-4 text-xs sm:text-lg md:text-xl border-b border-slate-100 pb-2 md:border-none">
-            <div><span class="font-bold">Bill No:</span> <span class="font-bold border-b-2 border-slate-800 px-2">{{ invoice.id }}</span></div>
-            <div class="text-right"><span class="font-bold">Date:</span> <span class="font-bold border-b-2 border-slate-800 px-2">{{ invoice.sale_date|date:"d/m/Y" }}</span></div>
+            <div><span class="font-semibold text-slate-600">Bill No:</span> <span class="font-bold border-b-2 border-slate-800 px-2">{{ invoice.id }}</span></div>
+            <div class="text-right"><span class="font-semibold text-slate-600">Date:</span> <span class="font-bold border-b-2 border-slate-800 px-2">{{ invoice.sale_date|date:"d/m/Y" }}</span></div>
         </div>
 
         <div class="space-y-4 mb-8 text-sm sm:text-base">
             <div class="flex flex-col sm:flex-row sm:items-end gap-1">
-                <span class="font-bold shrink-0">Name:</span>
-                <div class="flex-grow border-b-2 border-slate-800 font-bold italic text-blue-900 px-1">
+                <span class="font-bold text-slate-700 shrink-0">Name:</span>
+                <div class="flex-grow border-b border-slate-400 font-bold text-blue-900 px-1 uppercase tracking-tight">
                     {{ invoice.customer.name }}
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex items-end gap-2">
-                    <span class="font-bold shrink-0 text-xs sm:text-sm">GSTIN:</span>
-                    <div class="flex-grow border-b-2 border-slate-800 min-h-[20px]"></div>
+                    <span class="font-bold text-slate-700 shrink-0 text-xs sm:text-sm">GSTIN:</span>
+                    <div class="flex-grow border-b border-slate-400 font-semibold px-1 text-slate-800">24DZUPM0330M1Z1</div>
                 </div>
                 <div class="flex items-end gap-2">
-                    <span class="font-bold shrink-0 text-xs sm:text-sm">Address:</span>
-                    <div class="flex-grow border-b-2 border-slate-800 px-1 truncate italic">
+                    <span class="font-bold text-slate-700 shrink-0 text-xs sm:text-sm">Address:</span>
+                    <div class="flex-grow border-b border-slate-400 px-1 truncate font-medium text-slate-600">
                         {{ invoice.customer.address|default:"Local" }}
                     </div>
                 </div>
@@ -54,54 +54,53 @@
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[500px] md:min-w-0">
                     <thead>
-                        <tr class="border-b-2 border-red-700 font-bold bg-red-50/50 text-sm md:text-xl">
-                            <th class="py-3 border-r-2 border-red-700 w-[60%]">Particulars</th>
-                            <th class="py-3 border-r-2 border-red-700 w-[15%] text-center">Qty.</th>
-                            <th class="py-3 w-[25%] text-center">Amount</th>
+                        <tr class="border-b-2 border-red-700 font-bold bg-red-50/50 text-sm md:text-lg">
+                            <th class="py-3 px-4 border-r-2 border-red-700 w-[60%] text-left uppercase text-slate-700">Particulars</th>
+                            <th class="py-3 border-r-2 border-red-700 w-[15%] text-center uppercase text-slate-700">Qty.</th>
+                            <th class="py-3 w-[25%] text-center uppercase text-slate-700">Amount</th>
                         </tr>
                     </thead>
-                    <tbody class="text-xs md:text-xl">
-                        <tr class="h-32 md:h-[12cm] align-top">
-                            <td class="p-3 md:p-6 border-r-2 border-red-700 space-y-4">
-                                <div class="font-black uppercase text-base md:text-3xl">{{ invoice.product.brand }} - mobile</div>
+                    <tbody class="text-xs md:text-lg">
+                        <tr class="h-32 md:h-[10cm] align-top">
+                            <td class="p-4 md:p-6 border-r-2 border-red-700 space-y-4">
+                                <div class="font-bold uppercase text-base md:text-2xl text-slate-900">{{ invoice.product.brand }} - MOBILE DEVICE</div>
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-2">
-                                        <span class="font-bold text-[10px] md:text-sm">Model:</span>
-                                        <span class="border-b border-slate-400 italic font-bold text-blue-800">{{ invoice.product.model_name }}</span>
+                                        <span class="font-semibold text-slate-500 text-[10px] md:text-xs uppercase">Model:</span>
+                                        <span class="font-bold text-blue-800">{{ invoice.product.model_name }}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <span class="font-bold text-[10px] md:text-sm">IMEI:</span>
-                                        <span class="border-b border-slate-400 font-mono font-bold">{{ invoice.product.imei }}</span>
+                                        <span class="font-semibold text-slate-500 text-[10px] md:text-xs uppercase">IMEI:</span>
+                                        <span class="font-mono font-bold text-slate-700">{{ invoice.product.imei }}</span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="p-3 text-center border-r-2 border-red-700 font-bold text-base md:text-2xl">1</td>
-                            <td class="p-3 text-center font-black text-base md:text-3xl">₹{{ invoice.total_amount }}</td>
+                            <td class="p-3 text-center border-r-2 border-red-700 font-bold text-base md:text-xl text-slate-800">1</td>
+                            <td class="p-3 text-center font-bold text-base md:text-xl text-slate-900">₹{{ invoice.taxable_amount }}</td>
                         </tr>
                     </tbody>
-                    <tfoot class="border-t-2 border-red-700 text-xs md:text-lg">
+                    <tfoot class="border-t-2 border-red-700 text-xs md:text-base">
                         <tr class="border-b-2 border-red-700">
-                            <td rowspan="3" class="p-3 md:p-6 border-r-2 border-red-700 align-top bg-slate-50/20">
-                                <span class="font-bold uppercase block mb-1 text-[8px] md:text-sm text-slate-400">Rs. in word</span>
-                                <div class="italic font-bold text-sm md:text-xl border-b border-dotted border-slate-300">
+                            <td rowspan="4" class="p-3 md:p-6 border-r-2 border-red-700 align-top bg-slate-50/20">
+                                <span class="font-bold uppercase block mb-1 text-[8px] md:text-xs text-slate-400">Amount in words:</span>
+                                <div class="font-semibold text-sm md:text-lg text-slate-700 border-b border-dotted border-slate-300">
                                      {{ invoice.total_amount }} Rupees Only /-
                                 </div>
                             </td>
-                            <td class="px-2 md:px-4 py-2 border-r-2 border-red-700 font-bold">TOTAL</td>
-                            <td class="px-2 md:px-4 py-2 text-center font-bold">₹{{ invoice.total_amount }}</td>
+                            <td class="px-2 md:px-4 py-2 border-r-2 border-red-700 font-bold text-slate-600 uppercase">Taxable</td>
+                            <td class="px-2 md:px-4 py-2 text-center font-bold text-slate-900">₹{{ invoice.taxable_amount }}</td>
                         </tr>
                         <tr class="border-b-2 border-red-700">
-                            <td class="px-2 md:px-4 py-2 border-r-2 border-red-700 font-bold">CGST</td>
-                            <td class="px-2 md:px-4 py-2 text-center">---</td>
+                            <td class="px-2 md:px-4 py-2 border-r-2 border-red-700 font-bold text-slate-600 uppercase text-[10px] md:text-sm">CGST (9%)</td>
+                            <td class="px-2 md:px-4 py-2 text-center font-semibold text-slate-700">₹{{ invoice.cgst }}</td>
                         </tr>
                         <tr class="border-b-2 border-red-700">
-                            <td class="px-2 md:px-4 py-2 border-r-2 border-red-700 font-bold">SGST</td>
-                            <td class="px-2 md:px-4 py-2 text-center">---</td>
+                            <td class="px-2 md:px-4 py-2 border-r-2 border-red-700 font-bold text-slate-600 uppercase text-[10px] md:text-sm">SGST (9%)</td>
+                            <td class="px-2 md:px-4 py-2 text-center font-semibold text-slate-700">₹{{ invoice.sgst }}</td>
                         </tr>
-                        <tr class="bg-red-50/50 font-black">
-                            <td class="border-r-2 border-red-700 hidden md:table-cell"></td>
-                            <td class="px-2 md:px-4 py-3 border-r-2 border-red-700 text-sm md:text-xl">G.TOTAL</td>
-                            <td class="px-2 md:px-4 py-3 text-center text-lg md:text-3xl text-blue-900 border-b-4 border-double border-slate-800">
+                        <tr class="bg-red-50/50">
+                            <td class="px-2 md:px-4 py-3 border-r-2 border-red-700 text-sm md:text-lg font-bold uppercase text-slate-900">Grand Total</td>
+                            <td class="px-2 md:px-4 py-3 text-center text-lg md:text-2xl font-bold text-blue-900">
                                 ₹{{ invoice.total_amount }}
                             </td>
                         </tr>
@@ -110,7 +109,7 @@
             </div>
         </div>
 
-        <div class="text-[9px] sm:text-[11px] md:text-[13px] font-bold text-red-800 space-y-1 mb-8 px-2 leading-snug">
+        <div class="text-[9px] sm:text-[11px] md:text-[12px] font-semibold text-red-800 space-y-1 mb-8 px-2 leading-tight">
             <p>(૧) મોબાઈલ સર્વિસ માટે કંપનીમાં લઈ જવાની અને લાવવાની સંપૂર્ણ જવાબદારી અમારી રહેશે.</p>
             <p>(૨) એક્ટીવેશન થયેલો માલ પરત લેવામાં આવશે નહી. ડેમેજ માલની વોરંટી મળતી નથી.</p>
             <p>(૩) રીપેરીંગ સમય મર્યાદા કંપનીના નિયમો મુજબ રહેશે.</p>
@@ -118,17 +117,17 @@
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-center sm:items-end gap-6 mt-10 px-2">
-            <div class="text-[10px] sm:text-xs md:text-sm font-bold text-red-900 text-center sm:text-left">
-                <p>GSTIN: 24DZUPM0330M1Z1</p>
-                <p class="uppercase text-[8px] text-slate-500">Subject to danta Jurisdiction</p>
-                <div class="mt-4 border-t-2 border-red-700 pt-2 text-black text-[9px] sm:text-sm">
+            <div class="text-[10px] sm:text-xs md:text-sm font-semibold text-slate-600 text-center sm:text-left">
+                <p class="font-bold text-red-900">GSTIN: 24DZUPM0330M1Z1</p>
+                <p class="uppercase text-[8px] text-slate-400">Subject to Danta Jurisdiction</p>
+                <div class="mt-4 border-t border-slate-300 pt-2 text-slate-800 text-[9px] sm:text-xs">
                     Shop No.H-6, Katyayni Market, Danta.
                 </div>
             </div>
             <div class="text-center">
-                <p class="font-black text-blue-900 text-sm md:text-xl mb-8 uppercase">New Mobile Point</p>
-                <div class="border-t-2 border-slate-900 pt-1">
-                    <p class="font-bold text-[10px] md:text-lg uppercase italic">Proprietor Signature</p>
+                <p class="font-bold text-blue-900 text-sm md:text-lg mb-8 uppercase">For, New Mobile Point</p>
+                <div class="border-t border-slate-900 pt-1">
+                    <p class="font-bold text-[10px] md:text-sm uppercase tracking-wider">Authorized Signature</p>
                 </div>
             </div>
         </div>
@@ -136,18 +135,19 @@
 </div>
 
 <style>
-    /* Responsive Scroll Bar Indicator */
-    .overflow-x-auto::-webkit-scrollbar {
-        height: 4px;
+    /* Google Font 'Inter' ko import kiya clean look ke liye */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    .font-sans {
+        font-family: 'Inter', sans-serif;
     }
-    .overflow-x-auto::-webkit-scrollbar-thumb {
-        background: #e11d48;
-        border-radius: 10px;
-    }
+
+    .overflow-x-auto::-webkit-scrollbar { height: 4px; }
+    .overflow-x-auto::-webkit-scrollbar-thumb { background: #e11d48; border-radius: 10px; }
 
     @media print {
         @page { size: A4; margin: 0; }
-        body { background: white !important; margin: 0; }
+        body { background: white !important; margin: 0; font-family: 'Inter', sans-serif; }
         .print\:hidden { display: none !important; }
         .md\:w-\[21cm\] {
             width: 100% !important;
